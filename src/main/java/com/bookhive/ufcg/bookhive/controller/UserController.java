@@ -15,7 +15,7 @@ import com.bookhive.ufcg.bookhive.exception.UserConflictException;
 import com.bookhive.ufcg.bookhive.service.UserService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 @CrossOrigin
 public class UserController {
 
@@ -23,7 +23,7 @@ public class UserController {
     private UserService userService;
 
 
-    @RequestMapping(value = "/user/", method = RequestMethod.POST)
+    @RequestMapping(value = "user", method = RequestMethod.POST)
     public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO) {
         try {
             userService.addUser(userDTO);
@@ -33,7 +33,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/user/{username}", method = RequestMethod.PUT)
+    @RequestMapping(value = "user/{username}", method = RequestMethod.PUT)
     public ResponseEntity<String> updateUser(@RequestBody UserDTO userDTO, @PathVariable("username") String username) {
         try {
             userService.updateUser(username, userDTO.getFirstName(), userDTO.getLastName());
@@ -43,7 +43,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/user/{username}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "user/{username}", method = RequestMethod.DELETE)
     public ResponseEntity<String> removeUser(@PathVariable("username") String username) {
         try {
             userService.removeUser(username);
@@ -53,7 +53,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
+    @RequestMapping(value = "user/{username}", method = RequestMethod.GET)
     public ResponseEntity<?> getUser(@PathVariable("username") String username) {
         try {
             User user = userService.getUserByUsername(username);
@@ -63,7 +63,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @RequestMapping(value = "users", method = RequestMethod.GET)
     public ResponseEntity<List<String>> listUsers() {
         List<String> users = userService.listUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
