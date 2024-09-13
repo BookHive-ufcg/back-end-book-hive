@@ -1,10 +1,7 @@
 package com.bookhive.ufcg.bookhive.model;
 
-
 import jakarta.persistence.*;
-
 import java.sql.Date;
-
 
 @Entity
 @Table(name = "usuario")
@@ -27,6 +24,9 @@ public class User {
 
     @Column(name = "foto_perfil")
     private String profilePicture;
+
+    public User() {
+    }
 
     public User(String firstName, String lastName, String username, Date dateOfBirth,String password) {
         this.firstName = firstName;
