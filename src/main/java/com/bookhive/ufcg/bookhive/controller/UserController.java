@@ -64,8 +64,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "users", method = RequestMethod.GET)
-    public ResponseEntity<List<String>> listUsers() {
-        List<String> users = userService.listUsers();
+    public ResponseEntity<List<User>> listUsers() {
+        List<User> users = userService.listUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }
