@@ -3,6 +3,7 @@ package com.bookhive.ufcg.bookhive.service;
 import java.util.ArrayList;
 //import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,41 +20,33 @@ public class UserService {
     @Autowired
     private UserRepository userRep;
 
-    public void addUser(UserDTO userDTO) throws UserConflictException { 
-        if (this.userRep.hasUser(userDTO.getUsername())) {
-            throw new UserConflictException("Nome de usuário já existe.");
-        }
+    public void addUser(UserDTO userDTO) throws UserConflictException {
         User user = new User(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getUsername(), userDTO.getDateOfBirth(), userDTO.getPassword());
-
-        this.userRep.addUser(user);
+        this.userRep.save(user);
     }
 
-    public boolean verifiesUser(String username) {
-        return this.userRep.hasUser(username);
-    }
 
 	public void updateUser(String username, String firstName, String lastName) throws UserNotFoundException {
-		if (!this.userRep.hasUser(username)) {
-            throw new UserNotFoundException("Usuário: " + username + " não encontrado."); 
-        } 
-        this.userRep.updateUser(username,firstName,lastName);
+        User user = userRep.findById(username)
+                .orElseThrow(() -> new UserNotFoundException("Usuário: " + username + " não encontrado."));
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        userRep.save(user);
 	}
-	
-	
+
 	public void removeUser(String username) throws UserNotFoundException {
-		if (!this.userRep.hasUser(username)) {
-            throw new UserNotFoundException("Usuário: " + username + " não encontrado."); 
-        } 
-        this.userRep.removeUser(username);
+        User user = userRep.findById(username)
+                .orElseThrow(() -> new UserNotFoundException("Usuário: " + username + " não encontrado."));
+        userRep.delete(user);
     }
+    
 	public User getUserByUsername(String username) throws UserNotFoundException {
-		User user = this.userRep.getUser(username);
-		if(user == null) throw new UserNotFoundException("Usuário: " + username + " não encontrado."); 
-		
-		return user;	
-	}
-	
-	public List<String> listUsers() {
-		return new ArrayList<String>(userRep.listUsers());
-	}
+        User user = userRep.findById(username)
+                .orElseThrow(() -> new UserNotFoundException("Usuário: " + username + " não encontrado."));
+        return user;
+    }
+
+	public List<User> listUsers() {
+        return new ArrayList<>(userRep.findAll());
+    }
 }

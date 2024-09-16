@@ -1,18 +1,37 @@
 package com.bookhive.ufcg.bookhive.model;
 
+
+import jakarta.persistence.*;
+
+import java.sql.Date;
+
+
+@Entity
+@Table(name = "usuario")
 public class User {
-    
-    private String firstName;
 
-    private String lastName;
-
+    @Id
     private String username;
 
-    private String dateOfBirth;
+    @Column(name = "nome")
+    private String firstName;
 
-    private String password; 
+    @Column(name = "sobrenome")
+    private String lastName;
 
-    public User(String firstName, String lastName, String username, String dateOfBirth,String password) {
+    @Column(name = "data_nascimento")
+    private Date dateOfBirth;
+
+    @Column(name = "senha")
+    private String password;
+
+    @Column(name = "foto_perfil")
+    private String profilePicture;
+
+    public User() {
+    }
+
+    public User(String firstName, String lastName, String username, Date dateOfBirth, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -28,7 +47,7 @@ public class User {
 
     public String getUsername() { return username; }
 
-    public String getDateOfBirth() { return dateOfBirth; }
+    public Date getDateOfBirth() { return dateOfBirth; }
 
     public String getPassword() { return password; }
 
@@ -38,7 +57,7 @@ public class User {
 
     public void setUsername(String username) { this.username = username;}
 
-    public void setDateOfBirth(String dateOfBirth) { this.dateOfBirth = dateOfBirth;}
+    public void setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth;}
 
     public void setPassword(String password) { this.password = password;}
 

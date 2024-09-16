@@ -1,5 +1,7 @@
 package com.bookhive.ufcg.bookhive.dto;
 
+import java.sql.Date;
+
 public class UserDTO {
     
     private String firstName;
@@ -8,11 +10,11 @@ public class UserDTO {
 
     private String username;
 
-    private String dateOfBirth;
+    private Date dateOfBirth;
 
     private String password; 
 
-    public UserDTO(String firstName, String lastName, String username, String dateOfBirth,String password) {
+    public UserDTO(String firstName, String lastName, String username, Date dateOfBirth,String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -28,7 +30,7 @@ public class UserDTO {
 
     public String getUsername() { return username; }
 
-    public String getDateOfBirth() { return dateOfBirth; }
+    public Date getDateOfBirth() { return dateOfBirth; }
 
     public String getPassword() { return password; }
 
@@ -38,7 +40,7 @@ public class UserDTO {
 
     public void setUsername(String username) { this.username = username;}
 
-    public void setDateOfBirth(String dateOfBirth) { this.dateOfBirth = dateOfBirth;}
+    public void setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth;}
 
     public void setPassword(String password) { this.password = password;}
 
