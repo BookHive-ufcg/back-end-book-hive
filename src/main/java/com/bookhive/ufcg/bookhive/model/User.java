@@ -28,9 +28,9 @@ public class User {
     @Column(name = "foto_perfil")
     private String profilePicture;
 
-    public User(){
 
-    }
+    public User(){}
+  
     public User(String firstName, String lastName, String username, Date dateOfBirth,String password) {
         this.firstName = firstName;
         this.lastName = lastName;
