@@ -1,48 +1,53 @@
 package com.bookhive.ufcg.bookhive.service;
 
-import com.bookhive.ufcg.bookhive.dto.UserDTO;
-import com.bookhive.ufcg.bookhive.exception.UserConflictException;
-import com.bookhive.ufcg.bookhive.exception.UserNotFoundException;
-import com.bookhive.ufcg.bookhive.model.User;
+import com.bookhive.ufcg.bookhive.dto.BookDTO;
+
+import com.bookhive.ufcg.bookhive.exception.BookConflictException;
+import com.bookhive.ufcg.bookhive.exception.BookNotFoundException;
+import com.bookhive.ufcg.bookhive.model.Book;
 import com.bookhive.ufcg.bookhive.repository.BookRepository;
-import com.bookhive.ufcg.bookhive.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class BookService {
 
     @Autowired
     private BookRepository repository;
 
-    public void addUser(UserDTO userDTO) throws UserConflictException {
-        User user = new User(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getUsername(), userDTO.getDateOfBirth(), userDTO.getPassword());
-        this.userRep.save(user);
+    public void addBook(BookDTO bookDTO) throws BookConflictException {
+        if(repository.findById(bookDTO.getIbsn()).isPresent()){
+                throw new BookConflictException("livro com ISBN: " + bookDTO.getIbsn() + " Já cadastrado");}
+        Book book = new Book(bookDTO.getIbsn(), bookDTO.getRating());
+        this.repository.save(book);
     }
 
 
-    public void updateUser(String username, String firstName, String lastName) throws UserNotFoundException {
-        User user = userRep.findById(username)
-                .orElseThrow(() -> new UserNotFoundException("Usuário: " + username + " não encontrado."));
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        userRep.save(user);
+    public void updateBook(String isbn, Float rating) throws BookNotFoundException {
+        Book book = repository.findById(isbn)
+                .orElseThrow(() -> new BookNotFoundException("livro com ISBN: " + isbn + " Não Encontrado"));
+        book.setisbn(isbn);
+        //precisa estudar melhor essa logica,para atualizar corretamente
+        book.setRating(rating);
+        repository.save(book);
     }
 
-    public void removeUser(String username) throws UserNotFoundException {
-        User user = userRep.findById(username)
-                .orElseThrow(() -> new UserNotFoundException("Usuário: " + username + " não encontrado."));
-        userRep.delete(user);
+    public void removeBook(String isbn) throws BookNotFoundException {
+        Book book = repository.findById(isbn)
+                .orElseThrow(() -> new BookNotFoundException("livro com ISBN: " + isbn + " Não Encontrado"));
+        repository.delete(book);
     }
 
-    public User getUserByUsername(String username) throws UserNotFoundException {
-        User user = userRep.findById(username)
-                .orElseThrow(() -> new UserNotFoundException("Usuário: " + username + " não encontrado."));
-        return user;
+    public Book getBook(String isbn) throws BookNotFoundException {
+        return repository.findById(isbn)
+                .orElseThrow(() -> new BookNotFoundException("livro com ISBN: " + isbn + " Não Encontrado"));
     }
 
-    public List<User> listUsers() {
-        return new ArrayList<>(userRep.findAll());
+    public List<Book> listBooks() {
+        return new ArrayList<>(repository.findAll());
     }
+
 }

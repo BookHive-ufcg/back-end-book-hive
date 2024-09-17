@@ -10,7 +10,7 @@ import jakarta.persistence.*;
 public class Book {
 
     @Id
-    private String ibsn;
+    private String isbn;
 
     @Column(name = "rating")
     private float rating;
@@ -18,21 +18,21 @@ public class Book {
     public Book(){
 
     }
-    public Book(String ibsn, float rating) {
-        this.ibsn = ibsn;
+    public Book(String isbn, float rating) {
+        this.isbn = isbn;
         this.rating = rating;
     }
 
-    public String getIbsn() {
-        return ibsn;
+    public String getisbn() {
+        return isbn;
     }
 
     public float getRating() {
         return rating;
     }
 
-    public void setIbsn(String ibsn) {
-        this.ibsn = ibsn;
+    public void setisbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public void setRating(float rating) {
@@ -42,7 +42,7 @@ public class Book {
     @Override
     public String toString() {
         return "Book{" +
-                "ibsn='" + ibsn + '\'' +
+                "isbn='" + isbn + '\'' +
                 ", rating=" + rating +
                 '}';
     }
