@@ -1,83 +1,54 @@
 package com.bookhive.ufcg.bookhive.dto;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class ReviewDTO {
-    private String id;
-    private String bookTitle;
-    private String bookId;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private Integer rating;
-    private String comments;
+    private String review_id;
+    private String username_user;
+    private String bookIsbn;
+    private Date startDate;
+    private Date endDate;
+    private Integer rating;  
+    private String content;
 	
     public ReviewDTO() {}
 
-    public ReviewDTO(String id, String bookTitle, String bookId, LocalDate startDate, LocalDate endDate, Integer rating, String comments) {
-        this.id = id;
-        this.bookTitle = bookTitle;
-        this.bookId = bookId;
+    public ReviewDTO(String review_id, String username_user, String bookIsbn, Date startDate, Date endDate, Integer rating, String content) {
+        this.review_id = review_id;
+        this.username_user = username_user;
+        this.bookIsbn = bookIsbn;
         this.startDate = startDate;
         this.endDate = endDate;
         this.rating = rating;
-        this.comments = comments;
+        this.content = content;
     }
     
-    public String getId() {
-		return id;
-	}
+    public String getId() {return review_id;}
     
-	public void setId(String id) {
-		this.id = id;
-	}
+	public String getUsernameUser() {return username_user;}
+    
+	public String getBookIsbn() {return bookIsbn;}
 	
-	public String getBookTitle() {
-		return bookTitle;
-	}
+	public Date getStartDate() {return startDate;}
 	
-	public void setBookTitle(String bookTitle) {
-		this.bookTitle = bookTitle;
-	}
+	public Date getEndDate() {return endDate;}
 	
-	public String getBookId() {
-		return bookId;
-	}
+	public Integer getRating() {return rating;}
 	
-	public void setBookId(String bookId) {
-		this.bookId = bookId;
-	}
+	public String getContent() {return content;}
+    
+	public void setId(String id) {this.review_id = id;}
 	
-	public LocalDate getStartDate() {
-		return startDate;
-	}
+	public void setUsernameUser(String username_user) {this.username_user = username_user;}
 	
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
-	}
+	public void setBookIsbn(String bookIsbn) {this.bookIsbn = bookIsbn;}
 	
-	public LocalDate getEndDate() {
-		return endDate;
-	}
+	public void setStartDate(Date startDate) {this.startDate = startDate;}
 	
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
-	}
+	public void setEndDate(Date endDate) {this.endDate = endDate;}
 	
-	public Integer getRating() {
-		return rating;
-	}
+	public void setRating(Integer rating) {this.rating = rating;}
 	
-	public void setRating(Integer rating) {
-		this.rating = rating;
-	}
-	
-	public String getComments() {
-		return comments;
-	}
-	
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
-
+	public void setContent(String content) {this.content = content;}
     
 }
