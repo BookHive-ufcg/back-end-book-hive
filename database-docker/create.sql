@@ -10,15 +10,15 @@ CREATE TABLE usuario (
 
 -- Criação da tabela livro
 CREATE TABLE livro (
-    ibsn VARCHAR(100) PRIMARY KEY,
-    rating INTEGER NOT NULL
+    isbn VARCHAR(100) PRIMARY KEY,
+    rating FLOAT NOT NULL
 );
 
 -- Criação da tabela reviews
 CREATE TABLE reviews (
     review_id BIGSERIAL PRIMARY KEY,
     usuario_username VARCHAR(100) REFERENCES usuario (username),
-    livro_ibsn VARCHAR(100) REFERENCES livro (ibsn),
+    livro_isbn VARCHAR(100) REFERENCES livro (isbn),
     data_inicio DATE,
     data_fim DATE,
     avaliacao INTEGER,
@@ -29,7 +29,7 @@ CREATE TABLE reviews (
 CREATE TABLE livro_usuario (
     livro_usuario_id BIGSERIAL PRIMARY KEY,
     usuario_username VARCHAR(100) REFERENCES usuario (username),
-    livro_ibsn VARCHAR(100) REFERENCES livro (ibsn),
+    livro_isbn VARCHAR(100) REFERENCES livro (isbn),
     review_id BIGINT REFERENCES reviews (review_id),
     status VARCHAR(30)
 );

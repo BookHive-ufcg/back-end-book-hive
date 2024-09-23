@@ -13,7 +13,7 @@ Este projeto consiste no back-end da aplicação bookhive.
 
 ##
 
-Caso seja aprimeira vez, execute
+Caso seja aprimeira vez, entre na pasta database-docker e execute
 
 ```
 Docker compose up --build
