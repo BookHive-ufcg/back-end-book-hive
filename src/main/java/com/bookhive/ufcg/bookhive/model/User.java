@@ -4,6 +4,7 @@ package com.bookhive.ufcg.bookhive.model;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.List;
 
 
 @Entity
@@ -27,7 +28,9 @@ public class User {
 
     @Column(name = "foto_perfil")
     private String profilePicture;
-
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Review> reviews;
 
     public User(){}
   
@@ -60,5 +63,12 @@ public class User {
     public void setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth;}
 
     public void setPassword(String password) { this.password = password;}
-
+    
+    public List<Review> getReviews() {
+        return reviews;
+    }
+    
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 } 

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.hibernate.boot.archive.internal.JarProtocolArchiveDescriptor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,6 +15,6 @@ import com.bookhive.ufcg.bookhive.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
-
+	
 }
 

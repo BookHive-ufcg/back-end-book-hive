@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -13,59 +14,51 @@ import com.bookhive.ufcg.bookhive.model.Review;
 
 @Repository
 public class ReviewRepository {
-
-    private Map<String, Review> reviews;
-
-    public ReviewRepository() {
-        this.reviews = new HashMap<>();
-    }
-
-    public Collection<Review> getAll() {
-        return reviews.values();
-    }
-
-   
-    public void addReview(Review review) {
-        this.reviews.put(review.getId(), review);
-    }
-
+	
+	private final Map<Long, Review> reviewStorage = new HashMap<>();
+    private final Map<String, List<Review>> reviewsByBookIsbn = new HashMap<>();
+    private final Map<String, List<Review>> reviewsByUserUsername = new HashMap<>();
+    private Long idCounter = 1L;  // pra gerar ids únicos para cada review
     
-    public Review getReview(String id) {
-        return this.reviews.get(id);
-    }
+    public Review save(Review review) {
+        review.setId(idCounter++);
+        
+        reviewStorage.put(review.getId(), review);
+        
+        reviewsByBookIsbn.computeIfAbsent(review.getBook().getisbn(), k -> new ArrayList<>()).add(review);
 
-    
-    public void removeReview(String id) {
-        this.reviews.remove(id);
-    }
+        reviewsByUserUsername.computeIfAbsent(review.getUser().getUsername(), k -> new ArrayList<>()).add(review);
 
+        return review;
+    }
     
-    public void updateReview(String id, String bookTitle, String bookId, LocalDate startDate, LocalDate endDate, Integer rating, String comments) {
-        Review review = this.getReview(id);
-        if (review != null) {
-            review.setBookTitle(bookTitle);
-            review.setBookId(bookId);
-            review.setStartDate(startDate);
-            review.setEndDate(endDate);
-            review.setRating(rating);
-            review.setComments(comments);
+    public List<Review> findByBookIsbn(String isbn){
+        return reviewsByBookIsbn.getOrDefault(isbn, new ArrayList<>());
+    }
+    
+    public List<Review> findByUserUsername(String username){
+        return reviewsByUserUsername.getOrDefault(username, new ArrayList<>());
+    }
+    
+    public Optional<Review> findByUserUsernameAndBookIsbn(String username, String isbn) {
+        List<Review> userReviews = reviewsByUserUsername.getOrDefault(username, new ArrayList<>());
+        return userReviews.stream()
+                .filter(review -> review.getBook().getisbn().equals(isbn))
+                .findFirst();
+    }
+    
+    public boolean existsById(Long id) {
+        return reviewStorage.containsKey(id);
+    }
+    
+    public void deleteById(Long id) {
+        Review reviewToDelete = reviewStorage.remove(id);
+        if (reviewToDelete != null) {
+            reviewsByBookIsbn.getOrDefault(reviewToDelete.getBook().getisbn(), new ArrayList<>())
+                    .removeIf(review -> review.getId().equals(id));
+            reviewsByUserUsername.getOrDefault(reviewToDelete.getUser().getUsername(), new ArrayList<>())
+                    .removeIf(review -> review.getId().equals(id));
         }
-    }
-
-    public boolean hasReview(String id) {
-        return this.reviews.containsKey(id);
-    }
-
-
-    public List<String> listReviews() {
-        Collection<Review> reviews = this.reviews.values();
-        List<String> reviewList = new ArrayList<>();
-        for (Review review : reviews) {
-            String info = ("Review ID: " + review.getId() + ", Book title: " + review.getBookTitle() + ", Rating: " + review.getRating());
-            reviewList.add(info);
-        }
-
-        return reviewList;
     }
 }
 

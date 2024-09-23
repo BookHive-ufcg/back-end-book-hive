@@ -3,6 +3,7 @@ package com.bookhive.ufcg.bookhive.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,62 +11,53 @@ import org.springframework.stereotype.Service;
 import com.bookhive.ufcg.bookhive.dto.ReviewDTO;
 import com.bookhive.ufcg.bookhive.exception.ReviewNotFoundException;
 import com.bookhive.ufcg.bookhive.exception.ReviewConflictException;
+import com.bookhive.ufcg.bookhive.model.Book;
 import com.bookhive.ufcg.bookhive.model.Review;
+import com.bookhive.ufcg.bookhive.model.User;
 import com.bookhive.ufcg.bookhive.repository.ReviewRepository;
 
 @Service
 public class ReviewService {
 
-    @Autowired
+	@Autowired
     private ReviewRepository reviewRepository;
 
- 
-    public void addReview(ReviewDTO reviewDTO) throws ReviewConflictException {
-        if (this.reviewRepository.hasReview(reviewDTO.getId())) {
-            throw new ReviewConflictException("A resenha já existe");
-        }
-        Review review = new Review(
-                reviewDTO.getBookTitle(),
-                reviewDTO.getBookId(),
-                reviewDTO.getStartDate(),
-                reviewDTO.getEndDate(),
-                reviewDTO.getRating(),
-                reviewDTO.getComments());
-
-        this.reviewRepository.addReview(review);
+	private ReviewDTO convertToReviewDTO(Review review) {
+        return new ReviewDTO(
+                review.getId(),
+                review.getBook().getisbn(),
+                review.getUser().getUsername(),
+                review.getRating(),
+                review.getComments(),
+                review.getReviewDate()
+        );
     }
 
- 
-    public boolean verifyReview(String id) {
-        return this.reviewRepository.hasReview(id);
-    }
-
-
-    public void updateReview(String id, String bookTitle, String bookId, LocalDate startDate, LocalDate endDate, Integer rating, String comments) throws ReviewNotFoundException {
-        if (!this.reviewRepository.hasReview(id)) {
-            throw new ReviewNotFoundException("Resenha com o ID: " + id + " não encontrada");
-        }
-        this.reviewRepository.updateReview(id, bookTitle, bookId, startDate, endDate, rating, comments);
-    }
-
-  
-    public void removeReview(String id) throws ReviewNotFoundException {
-        if (!this.reviewRepository.hasReview(id)) {
-            throw new ReviewNotFoundException("Resenha com o ID: " + id + " não encontrada");
-        }
-        this.reviewRepository.removeReview(id);
-    }
-
-   
-    public Review getReviewById(String id) throws ReviewNotFoundException {
-        Review review = this.reviewRepository.getReview(id);
-        if (review == null) throw new ReviewNotFoundException("Resenha com o ID: " + id + " não encontrada");
-
-        return review;
-    }
-
- 
-    public List<String> listReviews() {
-        return new ArrayList<>(reviewRepository.listReviews());
-    }
+	 public List<ReviewDTO> getReviewsByBookIsbn(String isbn) {
+	        List<Review> reviews = reviewRepository.findByBookIsbn(isbn);
+	        return reviews.stream()
+	                .map(this::convertToReviewDTO)
+	                .collect(Collectors.toList());
+	 }
+	 
+	  public List<ReviewDTO> getReviewsByUserUsername(String username) {
+	        List<Review> reviews = reviewRepository.findByUserUsername(username);
+	        return reviews.stream()
+	                .map(this::convertToReviewDTO)
+	                .collect(Collectors.toList());
+	  }
+	  
+	  public ReviewDTO createReview(ReviewDTO reviewDTO, Book book, User user) {
+	        Review review = new Review(book, user, reviewDTO.getRating(), reviewDTO.getComments());
+	        Review savedReview = reviewRepository.save(review);
+	        return convertToReviewDTO(savedReview);
+	  }
+	  
+	  public boolean deleteReview(Long id) {
+	        if (reviewRepository.existsById(id)) {
+	            reviewRepository.deleteById(id);
+	            return true;
+	        }
+	        return false;
+	  }
 }

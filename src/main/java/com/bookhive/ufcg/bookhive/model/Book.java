@@ -2,6 +2,8 @@ package com.bookhive.ufcg.bookhive.model;
 
 import jakarta.persistence.Column;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 
@@ -14,6 +16,9 @@ public class Book {
 
     @Column(name = "rating")
     private float rating;
+    
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    private List<Review> reviews;
 
     public Book(){
 
@@ -37,6 +42,14 @@ public class Book {
 
     public void setRating(float rating) {
         this.rating = rating;
+    }
+    
+    public List<Review> getReviews() {
+        return reviews;
+    }
+    
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override

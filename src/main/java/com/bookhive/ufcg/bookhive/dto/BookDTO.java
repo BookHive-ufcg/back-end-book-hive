@@ -1,40 +1,46 @@
 package com.bookhive.ufcg.bookhive.dto;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 
 public class BookDTO {
 
-    private String ibsn;
-
+    private String isbn;
     private float rating;
+    private List<ReviewDTO> reviews;
 
-    public BookDTO(String ibsn, float rating) {
-        this.ibsn = ibsn;
-        this.rating = rating;
+    public BookDTO() {
     }
 
-    public String getIbsn() {
-        return ibsn;
+    public BookDTO(String isbn, float rating, List<ReviewDTO> reviews) {
+        this.isbn = isbn;
+        this.rating = rating;
+        this.reviews = reviews;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public float getRating() {
         return rating;
     }
 
-    public void setIbsn(String ibsn) {
-        this.ibsn = ibsn;
-    }
-
     public void setRating(float rating) {
         this.rating = rating;
     }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "ibsn='" + ibsn + '\'' +
-                ", rating=" + rating +
-                '}';
+    public List<ReviewDTO> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ReviewDTO> reviews) {
+        this.reviews = reviews;
     }
 }

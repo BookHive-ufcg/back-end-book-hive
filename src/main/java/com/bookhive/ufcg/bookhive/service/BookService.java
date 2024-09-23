@@ -11,43 +11,35 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
 
-    @Autowired
-    private BookRepository repository;
+ @Autowired
+    private BookRepository bookRepository;
 
-    public void addBook(BookDTO bookDTO) throws BookConflictException {
-        if(repository.findById(bookDTO.getIbsn()).isPresent()){
-                throw new BookConflictException("livro com ISBN: " + bookDTO.getIbsn() + " Já cadastrado");}
-        Book book = new Book(bookDTO.getIbsn(), bookDTO.getRating());
-        this.repository.save(book);
+    public BookDTO createOrUpdateBook(BookDTO bookDTO) {
+        Book book = new Book(bookDTO.getIsbn(), bookDTO.getRating());
+        bookRepository.save(book);
+        return bookDTO;
     }
 
-
-    public void updateBook(String isbn, Float rating) throws BookNotFoundException {
-        Book book = repository.findById(isbn)
-                .orElseThrow(() -> new BookNotFoundException("livro com ISBN: " + isbn + " Não Encontrado"));
-        book.setisbn(isbn);
-        //precisa estudar melhor essa logica,para atualizar corretamente
-        book.setRating(rating);
-        repository.save(book);
+    public Optional<BookDTO> getBookByIsbn(String isbn) {
+        Optional<Book> bookOptional = bookRepository.findById(isbn);
+        return bookOptional.map(book -> new BookDTO(book.getisbn(), book.getRating(), null));
     }
 
-    public void removeBook(String isbn) throws BookNotFoundException {
-        Book book = repository.findById(isbn)
-                .orElseThrow(() -> new BookNotFoundException("livro com ISBN: " + isbn + " Não Encontrado"));
-        repository.delete(book);
+    public boolean deleteBookByIsbn(String isbn) {
+        if (bookRepository.existsById(isbn)) {
+            bookRepository.deleteById(isbn);
+            return true;
+        }
+        return false;
     }
 
-    public Book getBook(String isbn) throws BookNotFoundException {
-        return repository.findById(isbn)
-                .orElseThrow(() -> new BookNotFoundException("livro com ISBN: " + isbn + " Não Encontrado"));
-    }
-
-    public List<Book> listBooks() {
-        return new ArrayList<>(repository.findAll());
+    public boolean bookExists(String isbn) {
+        return bookRepository.existsById(isbn);
     }
 
 }

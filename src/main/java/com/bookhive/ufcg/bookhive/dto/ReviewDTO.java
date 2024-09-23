@@ -1,83 +1,74 @@
 package com.bookhive.ufcg.bookhive.dto;
 
+import java.sql.Date;
+import java.util.List;
 import java.time.LocalDate;
 
 public class ReviewDTO {
-    private String id;
-    private String bookTitle;
-    private String bookId;
-    private LocalDate startDate;
-    private LocalDate endDate;
+
+    private Long id;
+    private String bookIsbn;
+    private String username;
     private Integer rating;
     private String comments;
-	
+    private LocalDate reviewDate;
+
     public ReviewDTO() {}
 
-    public ReviewDTO(String id, String bookTitle, String bookId, LocalDate startDate, LocalDate endDate, Integer rating, String comments) {
+    public ReviewDTO(Long id, String bookIsbn, String username, Integer rating, String comments, LocalDate reviewDate) {
         this.id = id;
-        this.bookTitle = bookTitle;
-        this.bookId = bookId;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.bookIsbn = bookIsbn;
+        this.username = username;
         this.rating = rating;
         this.comments = comments;
+        this.reviewDate = reviewDate;
     }
-    
-    public String getId() {
-		return id;
-	}
-    
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	public String getBookTitle() {
-		return bookTitle;
-	}
-	
-	public void setBookTitle(String bookTitle) {
-		this.bookTitle = bookTitle;
-	}
-	
-	public String getBookId() {
-		return bookId;
-	}
-	
-	public void setBookId(String bookId) {
-		this.bookId = bookId;
-	}
-	
-	public LocalDate getStartDate() {
-		return startDate;
-	}
-	
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
-	}
-	
-	public LocalDate getEndDate() {
-		return endDate;
-	}
-	
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
-	}
-	
-	public Integer getRating() {
-		return rating;
-	}
-	
-	public void setRating(Integer rating) {
-		this.rating = rating;
-	}
-	
-	public String getComments() {
-		return comments;
-	}
-	
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
 
-    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getBookIsbn() {
+        return bookIsbn;
+    }
+
+    public void setBookIsbn(String bookIsbn) {
+        this.bookIsbn = bookIsbn;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public LocalDate getReviewDate() {
+        return reviewDate;
+    }
+
+    public void setReviewDate(LocalDate reviewDate) {
+        this.reviewDate = reviewDate;
+    }
 }

@@ -1,72 +1,68 @@
 package com.bookhive.ufcg.bookhive.model;
 
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Entity
+@Table(name = "review")
 public class Review {
 	
-    private String id;
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String bookTitle;
-    
-    private String bookId;
+    @ManyToOne
+    @JoinColumn(name = "book_isbn", nullable = false)
+    private Book book;
 
-    private LocalDate startDate;
+    @ManyToOne
+    @JoinColumn(name = "user_username", nullable = false)
+    private User user;
 
-    private LocalDate endDate;
-
+    @Column(name = "rating")
     private Integer rating;
 
+    @Column(name = "comments")
     private String comments;
+
+    @Column(name = "review_date")
+    private LocalDate reviewDate;
     
-    public Review(String bookTitle, String bookId, LocalDate startDate,  LocalDate endDate, Integer rating, String comments) {
-    	this.id = UUID.randomUUID().toString();
-    	this.bookTitle = bookTitle;
-    	this.bookId = bookId;
-    	this.startDate = startDate;
-    	this.endDate = endDate;
-    	this.rating = rating;
-    	this.comments = comments;
+    public Review() {
+        this.reviewDate = LocalDate.now();
     }
 
-	public String getId() {
+    public Review(Book book, User user, Integer rating, String comments) {
+        this.book = book;
+        this.user = user;
+        this.rating = rating;
+        this.comments = comments;
+        this.reviewDate = LocalDate.now();
+    }
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getBookTitle() {
-		return bookTitle;
+	public Book getBook() {
+		return book;
 	}
 
-	public void setBookTitle(String bookTitle) {
-		this.bookTitle = bookTitle;
+	public void setBook(Book book) {
+		this.book = book;
 	}
 
-	public String getBookId() {
-		return bookId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setBookId(String bookId) {
-		this.bookId = bookId;
-	}
-
-	public LocalDate getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
-	}
-
-	public LocalDate getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Integer getRating() {
@@ -83,5 +79,13 @@ public class Review {
 
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+
+	public LocalDate getReviewDate() {
+		return reviewDate;
+	}
+
+	public void setReviewDate(LocalDate reviewDate) {
+		this.reviewDate = reviewDate;
 	}
 }
