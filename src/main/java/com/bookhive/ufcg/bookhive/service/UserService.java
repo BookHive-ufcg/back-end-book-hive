@@ -1,9 +1,7 @@
 package com.bookhive.ufcg.bookhive.service;
 
 import java.util.ArrayList;
-//import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +19,13 @@ public class UserService {
     private UserRepository userRep;
 
     public void addUser(UserDTO userDTO) throws UserConflictException {
-        User user = new User(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getUsername(), userDTO.getDateOfBirth(), userDTO.getPassword());
-        this.userRep.save(user);
-    }
-
+        if (!this.userRep.existsById(userDTO.getUsername())) {
+                User user = new User(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getUsername(), userDTO.getDateOfBirth(), userDTO.getPassword());
+                this.userRep.save(user);
+            } else {
+                throw new UserConflictException("Usuário " + userDTO.getUsername() + " já existe");
+            }
+        }
 
 	public void updateUser(String username, String firstName, String lastName) throws UserNotFoundException {
         User user = userRep.findById(username)
