@@ -1,12 +1,10 @@
 package com.bookhive.ufcg.bookhive.service;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.bookhive.ufcg.bookhive.dto.ReviewDTO;
 import com.bookhive.ufcg.bookhive.exception.ReviewNotFoundException;
 import com.bookhive.ufcg.bookhive.exception.ReviewConflictException;
@@ -18,54 +16,51 @@ public class ReviewService {
 
     @Autowired
     private ReviewRepository reviewRepository;
-
  
     public void addReview(ReviewDTO reviewDTO) throws ReviewConflictException {
-        if (this.reviewRepository.hasReview(reviewDTO.getId())) {
-            throw new ReviewConflictException("A resenha já existe");
-        }
-        Review review = new Review(
-                reviewDTO.getBookTitle(),
-                reviewDTO.getBookId(),
+    	if(this.reviewRepository.existsById(reviewDTO.getId())) {
+    		throw new ReviewConflictException("A resenha já existe");
+    	}
+        
+    	Review review = new Review(
+                reviewDTO.getUsernameUser(),
+                reviewDTO.getBookIsbn(),
                 reviewDTO.getStartDate(),
                 reviewDTO.getEndDate(),
                 reviewDTO.getRating(),
-                reviewDTO.getComments());
-
-        this.reviewRepository.addReview(review);
+                reviewDTO.getContent());
+    	
+    	this.reviewRepository.save(review);
     }
-
- 
-    public boolean verifyReview(String id) {
-        return this.reviewRepository.hasReview(id);
+    
+    public void updateReview(String id, String username_user, String bookIsbn, Date startDate, Date endDate, int rating, String content) throws ReviewNotFoundException {
+    	Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new ReviewNotFoundException("Review: " + id + " não encontrado."));
+        
+        review.setUserNameUser(username_user);
+        review.setBookIsbn(bookIsbn);
+        review.setStartDate(startDate);
+        review.setEndDate(endDate);
+        review.setRating(rating);
+        review.setContent(content);
+        
+        reviewRepository.save(review);
     }
-
-
-    public void updateReview(String id, String bookTitle, String bookId, LocalDate startDate, LocalDate endDate, Integer rating, String comments) throws ReviewNotFoundException {
-        if (!this.reviewRepository.hasReview(id)) {
-            throw new ReviewNotFoundException("Resenha com o ID: " + id + " não encontrada");
-        }
-        this.reviewRepository.updateReview(id, bookTitle, bookId, startDate, endDate, rating, comments);
-    }
-
-  
+    
     public void removeReview(String id) throws ReviewNotFoundException {
-        if (!this.reviewRepository.hasReview(id)) {
-            throw new ReviewNotFoundException("Resenha com o ID: " + id + " não encontrada");
-        }
-        this.reviewRepository.removeReview(id);
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new ReviewNotFoundException("Review: " + id + " não encontrado."));
+        reviewRepository.delete(review);
     }
-
-   
+    
     public Review getReviewById(String id) throws ReviewNotFoundException {
-        Review review = this.reviewRepository.getReview(id);
-        if (review == null) throw new ReviewNotFoundException("Resenha com o ID: " + id + " não encontrada");
-
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new ReviewNotFoundException("Review: " + id + " não encontrado."));
         return review;
     }
-
- 
-    public List<String> listReviews() {
-        return new ArrayList<>(reviewRepository.listReviews());
+    
+    public List<Review> listReview() {
+        return new ArrayList<>(reviewRepository.findAll());
     }
+     
 }

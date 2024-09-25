@@ -1,87 +1,74 @@
 package com.bookhive.ufcg.bookhive.model;
 
-import java.time.LocalDate;
 import java.util.UUID;
-
+import jakarta.persistence.*;
+import java.sql.Date;
+ 
+@Entity
+@Table(name = "reviews")
 public class Review {
 	
-    private String id;
+	@Id
+    private String review_id;
 
-    private String bookTitle;
+	@ManyToOne
+	@JoinColumn(name = "usuario_username", referencedColumnName = "username")
+    private String username_user;
     
-    private String bookId;
+	@ManyToOne
+	@JoinColumn(name = "livro_isbn", referencedColumnName = "isbn")
+    private String bookIsbn;
 
-    private LocalDate startDate;
+    @Column(name = "data_inicio")
+    private Date startDate;
+    
+    @Column(name = "data_fim")
+    private Date endDate;
 
-    private LocalDate endDate;
-
+    @Column(name = "avaliacao")
     private Integer rating;
 
-    private String comments;
+    @Column(name = "conteudo")
+    private String content;
     
-    public Review(String bookTitle, String bookId, LocalDate startDate,  LocalDate endDate, Integer rating, String comments) {
-    	this.id = UUID.randomUUID().toString();
-    	this.bookTitle = bookTitle;
-    	this.bookId = bookId;
+    public Review() {}
+    
+    public Review(String username_user, String bookIsbn, Date startDate,  Date endDate, Integer rating, String comments) {
+    	this.review_id = UUID.randomUUID().toString();
+    	this.username_user = username_user;
+    	this.bookIsbn = bookIsbn;
     	this.startDate = startDate;
     	this.endDate = endDate;
     	this.rating = rating;
-    	this.comments = comments;
+    	this.content = comments;
     }
 
-	public String getId() {
-		return id;
-	}
+	public String getId() {return review_id;}
+	
+	public String getUserNameUser() {return username_user;}
+	
+	public String getBookIsbn() {return bookIsbn;}
+	
+	public Date getStartDate() {return startDate;}
+	
+	public Date getEndDate() {return endDate;}
+	
+	public Integer getRating() {return rating;}
+	
+	public String getContent() {return content;}
+	
+	public void setId(String id) {this.review_id = id;}
 
-	public void setId(String id) {
-		this.id = id;
-	}
+	public void setUserNameUser(String username_user) {this.username_user = username_user;}
 
-	public String getBookTitle() {
-		return bookTitle;
-	}
+	public void setBookIsbn(String bookId) {this.bookIsbn = bookId;}
 
-	public void setBookTitle(String bookTitle) {
-		this.bookTitle = bookTitle;
-	}
+	public void setStartDate(Date startDate) {this.startDate = startDate;}
+	
+	public void setEndDate(Date endDate) {this.endDate = endDate;}
+	
+	public void setRating(Integer rating) {this.rating = rating;}
+	
+	public void setContent(String comments) {this.content = comments;}
 
-	public String getBookId() {
-		return bookId;
-	}
-
-	public void setBookId(String bookId) {
-		this.bookId = bookId;
-	}
-
-	public LocalDate getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
-	}
-
-	public LocalDate getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
-	}
-
-	public Integer getRating() {
-		return rating;
-	}
-
-	public void setRating(Integer rating) {
-		this.rating = rating;
-	}
-
-	public String getComments() {
-		return comments;
-	}
-
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
 }
