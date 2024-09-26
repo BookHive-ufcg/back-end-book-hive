@@ -44,9 +44,9 @@ public class ReviewController {
     }
 
     
-    @GetMapping
-    public ResponseEntity<List<String>> listReviews() {
-        List<String> reviews = reviewService.listReviews();
+    @RequestMapping(value = "reviews", method = RequestMethod.GET)
+    public ResponseEntity<List<Review>> listReviews() {
+        List<Review> reviews = reviewService.listReviews();
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 
