@@ -59,7 +59,7 @@ public class ReviewService {
         return review;
     }
     
-    public List<Review> listReview() {
+    public List<Review> listReviews() {
         return new ArrayList<>(reviewRepository.findAll());
     }
      
