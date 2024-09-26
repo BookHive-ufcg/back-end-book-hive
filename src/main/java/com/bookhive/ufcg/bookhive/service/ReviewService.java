@@ -22,7 +22,11 @@ public class ReviewService {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
     private BookRepository bookRepository;
  
     public void addReview(ReviewDTO reviewDTO) throws ReviewConflictException,UserNotFoundException, BookNotFoundException {
