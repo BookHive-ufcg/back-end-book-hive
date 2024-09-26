@@ -7,36 +7,36 @@ import java.sql.Date;
 @Entity
 @Table(name = "reviews")
 public class Review {
-	
+
 	@Id
-    private String review_id;
+	private String review_id;
 
 	@ManyToOne
 	@JoinColumn(name = "usuario_username", referencedColumnName = "username")
-    private String username_user;
-    
+	private User user;
+
 	@ManyToOne
 	@JoinColumn(name = "livro_isbn", referencedColumnName = "isbn")
-    private String bookIsbn;
+	private Book book;
 
-    @Column(name = "data_inicio")
-    private Date startDate;
-    
-    @Column(name = "data_fim")
-    private Date endDate;
+	@Column(name = "data_inicio")
+	private Date startDate;
 
-    @Column(name = "avaliacao")
-    private Integer rating;
+	@Column(name = "data_fim")
+	private Date endDate;
 
-    @Column(name = "conteudo")
-    private String content;
+	@Column(name = "avaliacao")
+	private Integer rating;
+
+	@Column(name = "conteudo")
+	private String content;
     
     public Review() {}
     
-    public Review(String username_user, String bookIsbn, Date startDate,  Date endDate, Integer rating, String comments) {
+    public Review(User user, Book book, Date startDate,  Date endDate, Integer rating, String comments) {
     	this.review_id = UUID.randomUUID().toString();
-    	this.username_user = username_user;
-    	this.bookIsbn = bookIsbn;
+    	this.user = user;
+    	this.book = book;
     	this.startDate = startDate;
     	this.endDate = endDate;
     	this.rating = rating;
@@ -45,9 +45,9 @@ public class Review {
 
 	public String getId() {return review_id;}
 	
-	public String getUserNameUser() {return username_user;}
+	public User getUserNameUser() {return user;}
 	
-	public String getBookIsbn() {return bookIsbn;}
+	public Book getBookIsbn() {return book;}
 	
 	public Date getStartDate() {return startDate;}
 	
@@ -58,10 +58,6 @@ public class Review {
 	public String getContent() {return content;}
 	
 	public void setId(String id) {this.review_id = id;}
-
-	public void setUserNameUser(String username_user) {this.username_user = username_user;}
-
-	public void setBookIsbn(String bookId) {this.bookIsbn = bookId;}
 
 	public void setStartDate(Date startDate) {this.startDate = startDate;}
 	

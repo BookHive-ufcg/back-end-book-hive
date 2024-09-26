@@ -1,5 +1,7 @@
 package com.bookhive.ufcg.bookhive.controller;
 
+import com.bookhive.ufcg.bookhive.exception.BookNotFoundException;
+import com.bookhive.ufcg.bookhive.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,13 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity<String> addReview(@RequestBody ReviewDTO reviewDTO) {
         try {
-            reviewService.addReview(reviewDTO);
+            try {
+                reviewService.addReview(reviewDTO);
+            } catch (UserNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (BookNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             return new ResponseEntity<>("Resenha criada com sucesso", HttpStatus.CREATED);
         } catch (ReviewConflictException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
@@ -56,15 +64,21 @@ public class ReviewController {
             @PathVariable String id,
             @RequestBody ReviewDTO reviewDTO) {
         try {
-            reviewService.updateReview(
-                    id,
-                    reviewDTO.getUsenameUser(),
-                    reviewDTO.getBookIsbn(),
-                    reviewDTO.getStartDate(),
-                    reviewDTO.getEndDate(),
-                    reviewDTO.getRating(),
-                    reviewDTO.getContent()
-            );
+            try {
+                reviewService.updateReview(
+                        id,
+                        reviewDTO.getUsernameUser(),
+                        reviewDTO.getBookIsbn(),
+                        reviewDTO.getStartDate(),
+                        reviewDTO.getEndDate(),
+                        reviewDTO.getRating(),
+                        reviewDTO.getContent()
+                );
+            } catch (UserNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (BookNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             return new ResponseEntity<>("Resenha atualizada com sucesso", HttpStatus.OK);
         } catch (ReviewNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
