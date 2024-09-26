@@ -58,12 +58,12 @@ public class ReviewController {
         try {
             reviewService.updateReview(
                     id,
-                    reviewDTO.getBookTitle(),
-                    reviewDTO.getBookId(),
+                    reviewDTO.getUsenameUser(),
+                    reviewDTO.getBookIsbn(),
                     reviewDTO.getStartDate(),
                     reviewDTO.getEndDate(),
                     reviewDTO.getRating(),
-                    reviewDTO.getComments()
+                    reviewDTO.getContent()
             );
             return new ResponseEntity<>("Resenha atualizada com sucesso", HttpStatus.OK);
         } catch (ReviewNotFoundException e) {
