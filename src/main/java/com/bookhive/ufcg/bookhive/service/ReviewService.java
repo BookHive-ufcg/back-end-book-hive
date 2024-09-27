@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.bookhive.ufcg.bookhive.dto.UserDTO;
 import com.bookhive.ufcg.bookhive.exception.*;
 import com.bookhive.ufcg.bookhive.model.Book;
 import com.bookhive.ufcg.bookhive.model.User;
@@ -28,10 +27,11 @@ public class ReviewService {
 
     @Autowired
     private BookRepository bookRepository;
+
  
     public void addReview(ReviewDTO reviewDTO) throws ReviewConflictException,UserNotFoundException, BookNotFoundException {
 
-    	if(this.reviewRepository.existsById(reviewDTO.getId())) {
+    	if(reviewRepository.findByUsernameAndIsbn(reviewDTO.getUsernameUser(), reviewDTO.getBookIsbn()).isPresent()) {
     		throw new ReviewConflictException("A resenha já existe");
     	}
 
@@ -77,13 +77,36 @@ public class ReviewService {
     }
     
     public Review getReviewById(String id) throws ReviewNotFoundException {
-        Review review = reviewRepository.findById(id)
+        return reviewRepository.findById(id)
                 .orElseThrow(() -> new ReviewNotFoundException("Review: " + id + " não encontrado."));
-        return review;
     }
     
     public List<Review> listReviews() {
         return new ArrayList<>(reviewRepository.findAll());
     }
-     
+
+    public List<Review> getReviewsByBookIsbn(String isbn) {
+        return new ArrayList<>(reviewRepository.findByBookIsbn(isbn));
+    }
+    public Optional<Review> getUserReviewByBookIsbn(String username, String isbn) {
+        return reviewRepository.findByUsernameAndIsbn(username, isbn);
+    }
+
+    public List<Review> getReviewsByUserUsername(String username) {
+        return new ArrayList<>(reviewRepository.findByUsername(username));
+    }
+
+
+    private ReviewDTO convertToReviewDTO(Review review) {
+        return new ReviewDTO(
+                review.getId(),
+                review.getUserNameUser().getUsername(),
+                review.getBookIsbn().getisbn(),
+                review.getStartDate(),
+                review.getEndDate(),
+                review.getRating(),
+                review.getContent()
+
+        );
+    }
 }

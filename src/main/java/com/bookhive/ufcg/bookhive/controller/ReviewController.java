@@ -14,6 +14,7 @@ import com.bookhive.ufcg.bookhive.model.Review;
 import com.bookhive.ufcg.bookhive.service.ReviewService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/reviews")
@@ -29,9 +30,7 @@ public class ReviewController {
         try {
             try {
                 reviewService.addReview(reviewDTO);
-            } catch (UserNotFoundException e) {
-                throw new RuntimeException(e);
-            } catch (BookNotFoundException e) {
+            } catch (UserNotFoundException | BookNotFoundException e) {
                 throw new RuntimeException(e);
             }
             return new ResponseEntity<>("Resenha criada com sucesso", HttpStatus.CREATED);
@@ -94,5 +93,30 @@ public class ReviewController {
         } catch (ReviewNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<List<Review>> getReviewsByUser(@PathVariable String username) {
+        List<Review> reviews = reviewService.getReviewsByUserUsername(username);
+        if (reviews.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(reviews, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{username}/book/{isbn}")
+    public ResponseEntity<Review> getUserReviewForBook(@PathVariable String username, @PathVariable String isbn) {
+        Optional<Review> review = reviewService.getUserReviewByBookIsbn(username, isbn);
+        return review.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+
+    }
+
+    @GetMapping("/book/{isbn}")
+    public ResponseEntity<List<Review>> getReviewsForBook(@PathVariable String isbn) {
+        List<Review> reviews = reviewService.getReviewsByBookIsbn(isbn);
+        if (reviews.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 }
