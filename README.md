@@ -12,6 +12,32 @@ Este projeto consiste no back-end da aplicação bookhive.
 
 
 ##
+Rodando a aplicação via docker:
+
+No diretório root, execute o comando:
+
+```
+docker build -t bookhive-app .
+```
+
+o primeiro build é demorado, levando cerca de 3 a 4 minutos, depois que ele for concluído, execute:
+
+```
+docker run -p 8686:8686 bookhive-app
+```
+
+
+
+
+
+
+
+
+
+
+
+
+##
 
 Caso seja aprimeira vez, entre na pasta database-docker e execute
 
