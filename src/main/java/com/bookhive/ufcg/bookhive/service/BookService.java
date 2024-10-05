@@ -49,5 +49,13 @@ public class BookService {
     public List<Book> listBooks() {
         return new ArrayList<>(repository.findAll());
     }
+    
+    public Book getOrCreateBook(String ibsn) {
+        return repository.findById(ibsn)
+                .orElseGet(() -> {
+                    Book newBook = new Book(ibsn);
+                    return repository.save(newBook);
+                });
+    }
 
 }
