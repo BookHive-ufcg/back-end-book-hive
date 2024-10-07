@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS livro (
 );
 
 CREATE TABLE IF NOT EXISTS reviews (
-    review_id BIGSERIAL PRIMARY KEY,
+    review_id varchar(100) PRIMARY KEY,
     usuario_username VARCHAR(100) REFERENCES usuario (username),
     livro_isbn VARCHAR(100) REFERENCES livro (isbn),
     data_inicio DATE,

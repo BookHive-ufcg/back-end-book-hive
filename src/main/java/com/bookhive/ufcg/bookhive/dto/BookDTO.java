@@ -5,25 +5,25 @@ import jakarta.persistence.Id;
 
 public class BookDTO {
 
-    private String ibsn;
+    private String isbn;
 
     private float rating;
 
-    public BookDTO(String ibsn, float rating) {
-        this.ibsn = ibsn;
+    public BookDTO(String isbn, float rating) {
+        this.isbn = isbn;
         this.rating = rating;
     }
 
-    public String getIbsn() {
-        return ibsn;
+    public String getIsbn() {
+        return isbn;
     }
 
     public float getRating() {
         return rating;
     }
 
-    public void setIbsn(String ibsn) {
-        this.ibsn = ibsn;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public void setRating(float rating) {
@@ -33,7 +33,7 @@ public class BookDTO {
     @Override
     public String toString() {
         return "Book{" +
-                "ibsn='" + ibsn + '\'' +
+                "isbn='" + isbn + '\'' +
                 ", rating=" + rating +
                 '}';
     }
