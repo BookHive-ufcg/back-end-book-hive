@@ -22,7 +22,9 @@ public class Book {
         this.isbn = isbn;
         this.rating = rating;
     }
-
+    public Book(String isbn) {
+        this.isbn = isbn;
+    }
     public String getisbn() {
         return isbn;
     }

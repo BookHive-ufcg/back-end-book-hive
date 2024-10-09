@@ -19,9 +19,9 @@ public class BookService {
     private BookRepository repository;
 
     public void addBook(BookDTO bookDTO) throws BookConflictException {
-        if(repository.findById(bookDTO.getIbsn()).isPresent()){
-                throw new BookConflictException("livro com ISBN: " + bookDTO.getIbsn() + " Já cadastrado");}
-        Book book = new Book(bookDTO.getIbsn(), bookDTO.getRating());
+        if(repository.findById(bookDTO.getIsbn()).isPresent()){
+                throw new BookConflictException("livro com ISBN: " + bookDTO.getIsbn() + " Já cadastrado");}
+        Book book = new Book(bookDTO.getIsbn(), bookDTO.getRating());
         this.repository.save(book);
     }
 
@@ -48,6 +48,14 @@ public class BookService {
 
     public List<Book> listBooks() {
         return new ArrayList<>(repository.findAll());
+    }
+    
+    public Book getOrCreateBook(String isbn) {
+        return repository.findById(isbn)
+                .orElseGet(() -> {
+                    Book newBook = new Book(isbn);
+                    return repository.save(newBook);
+                });
     }
 
 }

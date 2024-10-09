@@ -24,6 +24,9 @@ public class ReviewService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private BookService bookService;
 
     @Autowired
     private BookRepository bookRepository;
@@ -38,8 +41,7 @@ public class ReviewService {
         User user = userRepository.findById(reviewDTO.getUsernameUser())
                 .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
 
-        Book book = bookRepository.findById(reviewDTO.getBookIsbn())
-                .orElseThrow(() -> new BookNotFoundException("Livro não encontrado"));
+        Book book = bookService.getOrCreateBook(reviewDTO.getBookIsbn());
 
     	Review review = new Review(
                 user,
