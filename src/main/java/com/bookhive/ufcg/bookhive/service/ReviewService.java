@@ -5,16 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.bookhive.ufcg.bookhive.exception.*;
-import com.bookhive.ufcg.bookhive.model.Book;
-import com.bookhive.ufcg.bookhive.model.User;
-import com.bookhive.ufcg.bookhive.repository.BookRepository;
-import com.bookhive.ufcg.bookhive.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.bookhive.ufcg.bookhive.dto.ReviewDTO;
+import com.bookhive.ufcg.bookhive.exception.BookNotFoundException;
+import com.bookhive.ufcg.bookhive.exception.ReviewConflictException;
+import com.bookhive.ufcg.bookhive.exception.ReviewNotFoundException;
+import com.bookhive.ufcg.bookhive.exception.UserNotFoundException;
+import com.bookhive.ufcg.bookhive.model.Book;
 import com.bookhive.ufcg.bookhive.model.Review;
+import com.bookhive.ufcg.bookhive.model.User;
+import com.bookhive.ufcg.bookhive.repository.BookRepository;
 import com.bookhive.ufcg.bookhive.repository.ReviewRepository;
+import com.bookhive.ufcg.bookhive.repository.UserRepository;
 
 @Service
 public class ReviewService {
@@ -101,14 +105,12 @@ public class ReviewService {
 
     private ReviewDTO convertToReviewDTO(Review review) {
         return new ReviewDTO(
-                review.getId(),
                 review.getUserNameUser().getUsername(),
                 review.getBookIsbn().getisbn(),
                 review.getStartDate(),
                 review.getEndDate(),
                 review.getRating(),
                 review.getContent()
-
         );
     }
 }
