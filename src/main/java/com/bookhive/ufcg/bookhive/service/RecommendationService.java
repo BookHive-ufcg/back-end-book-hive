@@ -7,18 +7,22 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.springframework.stereotype.Service;
-import com.google.gson.*;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 @Service
 public class RecommendationService {
 
-    private final String API_KEY = "AIzaSyCAXLBPxF3rimzquwWmhmnbZU3yywFajpQ";
+    private final String API_KEY = "AIzaSyA7g6717GETwvZt3fp5bQ0QFo-8f8Nkl9Y";
     private final String ENDPOINT_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=" + API_KEY;
 
     public String generateContent(String genre, String title) {
         try {
             // Montar a requisição JSON
-            String userInput = String.format("gostaria de baseado nesse livro %s, me indique outro livro, mas com o genero de %s. a resposta deve ser somente o titulo do livro indicado e conter apenas um livro", genre, title);
+            String userInput = String.format("gostaria de baseado nesse livro %s, me indique outro livro, mas com o genero de %s. a resposta deve ser somente o titulo do livro indicado e conter apenas um livro", title, genre);
             JsonObject requestJson = new JsonObject();
             JsonObject userPart = new JsonObject();
             userPart.addProperty("text", userInput);
