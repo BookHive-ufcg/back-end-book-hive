@@ -16,7 +16,7 @@ public class RecommendationController {
     @Autowired
     private RecommendationService recommendService;
 
-    @RequestMapping(value = "recommend/{genre}/{title}", method = RequestMethod.PUT)
+    @RequestMapping(value = "recommend/{genre}/{title}", method = RequestMethod.GET)
     public String generateContent(@PathVariable("genre") String genre, @PathVariable("title") String title) {
         return recommendService.generateContent(genre, title);
     }
