@@ -22,7 +22,7 @@ public class RecommendationService {
     public String generateContent(String genre, String title) {
         try {
             // Montar a requisição JSON
-            String userInput = String.format("gostaria de baseado nesse livro %s, me indique outro livro, mas com o genero de %s. a resposta deve ser somente o titulo do livro indicado e conter apenas um livro", title, genre);
+            String userInput = String.format("gostaria de baseado nesse livro %s, me indique outro livro, mas com o genero de %s. a resposta deve ser somente o titulo do livro indicado e o autor do livro, separado por hífen. E conter apenas um livro", title, genre);
             JsonObject requestJson = new JsonObject();
             JsonObject userPart = new JsonObject();
             userPart.addProperty("text", userInput);
