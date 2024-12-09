@@ -24,13 +24,14 @@ public class UserController {
     private UserService userService;
 
 
-    @RequestMapping(value = "user", method = RequestMethod.POST)
-    public ResponseEntity<String> addUser(@RequestParam("profilePicture") MultipartFile profilePicture,
-                                          @RequestParam("user") UserDTO userJson) {
+
+    @PostMapping(value = "user", consumes = "multipart/form-data")
+    public ResponseEntity<String> addUser(@RequestPart("userDTO") String userDTOJson,
+                                          @RequestPart("profilePicture") MultipartFile profilePicture) {
         try {
-            // Converte o JSON do usuário em um objeto UserDTO
+            // Converte o JSON recebido para um objeto UserDTO
             ObjectMapper objectMapper = new ObjectMapper();
-            UserDTO userDTO = objectMapper.readValue(userJson, UserDTO.class);
+            UserDTO userDTO = objectMapper.readValue(userDTOJson, UserDTO.class);
 
             // Salva a foto como um array de bytes
             byte[] photoBytes = profilePicture.getBytes();
@@ -43,6 +44,7 @@ public class UserController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @RequestMapping(value = "user/{username}", method = RequestMethod.PUT)
     public ResponseEntity<String> updateUser(@RequestBody UserDTO userDTO, @PathVariable("username") String username) {

@@ -16,8 +16,8 @@ public class UserDTO {
 
     private String password;
 
-    private MultipartFile profilePicture;
-
+    public UserDTO() {
+    }
     public UserDTO(String firstName, String lastName, String username, Date dateOfBirth,String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -48,11 +48,5 @@ public class UserDTO {
 
     public void setPassword(String password) { this.password = password;}
 
-    public MultipartFile getProfilePicture() {
-        return profilePicture;
-    }
 
-    public void setProfilePicture(MultipartFile profilePicture) {
-        this.profilePicture = profilePicture;
-    }
 } 
