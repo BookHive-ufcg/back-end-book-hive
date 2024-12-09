@@ -7,9 +7,9 @@ spring:
       pool-name: plataforma-database-pool
       auto-commit: false
       connection-timeout: 30000
-    url: jdbc:postgresql://dpg-crulahu8ii6s738pskq0-a.ohio-postgres.render.com:5432/bookhive_fz4r
-    username: bookhiveuser
-    password: dxmHjefn0Uj1NSbYqCtwQBn2RrF7aDZD
+    url: jdbc:postgresql://dpg-ctbhp30gph6c73bt9mq0-a.ohio-postgres.render.com:5432/bookhive_gvrz
+    username: bookhive_gvrz_user
+    password: yaoHvvKaFkaYc3XxWtCwxh8qjsnDvySA
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver
     initialization-mode: always
