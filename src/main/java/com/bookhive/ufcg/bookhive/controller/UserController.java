@@ -2,6 +2,7 @@ package com.bookhive.ufcg.bookhive.controller;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import com.bookhive.ufcg.bookhive.model.User;
 import com.bookhive.ufcg.bookhive.exception.UserNotFoundException;
 import com.bookhive.ufcg.bookhive.exception.UserConflictException;
 import com.bookhive.ufcg.bookhive.service.UserService;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/")
@@ -23,12 +25,22 @@ public class UserController {
 
 
     @RequestMapping(value = "user", method = RequestMethod.POST)
-    public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<String> addUser(@RequestParam("profilePicture") MultipartFile profilePicture,
+                                          @RequestParam("user") UserDTO userJson) {
         try {
-            userService.addUser(userDTO);
+            // Converte o JSON do usuário em um objeto UserDTO
+            ObjectMapper objectMapper = new ObjectMapper();
+            UserDTO userDTO = objectMapper.readValue(userJson, UserDTO.class);
+
+            // Salva a foto como um array de bytes
+            byte[] photoBytes = profilePicture.getBytes();
+
+            // Chama o serviço para adicionar o usuário com a foto
+            userService.addUser(userDTO, photoBytes);
+
             return new ResponseEntity<>("Usuário cadastrado com sucesso", HttpStatus.CREATED);
-        } catch (UserConflictException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

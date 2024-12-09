@@ -18,14 +18,14 @@ public class UserService {
     @Autowired
     private UserRepository userRep;
 
-    public void addUser(UserDTO userDTO) throws UserConflictException {
+    public void addUser(UserDTO userDTO, byte[] photoBytes) throws UserConflictException {
         if (!this.userRep.existsById(userDTO.getUsername())) {
-                User user = new User(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getUsername(), userDTO.getDateOfBirth(), userDTO.getPassword());
-                this.userRep.save(user);
-            } else {
-                throw new UserConflictException("Usuário " + userDTO.getUsername() + " já existe");
-            }
+            User user = new User(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getUsername(), userDTO.getDateOfBirth(), userDTO.getPassword(), photoBytes);
+            this.userRep.save(user);
+        } else {
+            throw new UserConflictException("Usuário " + userDTO.getUsername() + " já existe");
         }
+    }
 
 	public void updateUser(String username, String firstName, String lastName) throws UserNotFoundException {
         User user = userRep.findById(username)
@@ -40,7 +40,7 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("Usuário: " + username + " não encontrado."));
         userRep.delete(user);
     }
-    
+
 	public User getUserByUsername(String username) throws UserNotFoundException {
         User user = userRep.findById(username)
                 .orElseThrow(() -> new UserNotFoundException("Usuário: " + username + " não encontrado."));

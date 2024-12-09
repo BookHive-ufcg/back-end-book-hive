@@ -39,9 +39,9 @@ INSERT INTO livro (isbn, rating) VALUES
 ON CONFLICT (isbn) DO NOTHING;
 
 -- Inserção de dados na tabela 'reviews'
-INSERT INTO reviews (usuario_username, livro_isbn, data_inicio, data_fim, avaliacao, conteudo) VALUES
-('johndoe', '9788580416718', '2023-01-10', '2023-01-15', 4, 'Um livro incrível que me prendeu do começo ao fim.'),
-('janedoe', '9786555951783', '2023-02-20', '2023-02-28', 5, 'Uma obra-prima! Super recomendo.'),
-('mike92', '9788580416718', '2023-03-15', '2023-03-20', 3, 'Bom, mas poderia ser melhor.'),
-('sarahjohnson', '9786556402628', '2023-04-05', '2023-04-10', 4, 'Excelente narrativa e personagens bem construídos.')
+INSERT INTO reviews (review_id,usuario_username, livro_isbn, data_inicio, data_fim, avaliacao, conteudo) VALUES
+(1,'johndoe', '9788580416718', '2023-01-10', '2023-01-15', 4, 'Um livro incrível que me prendeu do começo ao fim.'),
+(2,'janedoe', '9786555951783', '2023-02-20', '2023-02-28', 5, 'Uma obra-prima! Super recomendo.'),
+(3,'mike92', '9788580416718', '2023-03-15', '2023-03-20', 3, 'Bom, mas poderia ser melhor.'),
+(4,'sarahjohnson', '9786556402628', '2023-04-05', '2023-04-10', 4, 'Excelente narrativa e personagens bem construídos.')
 ON CONFLICT DO NOTHING;
