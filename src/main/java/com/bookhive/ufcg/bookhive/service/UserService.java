@@ -20,7 +20,10 @@ public class UserService {
 
     public void addUser(UserDTO userDTO, byte[] photoBytes) throws UserConflictException {
         if (!this.userRep.existsById(userDTO.getUsername())) {
-            User user = new User(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getUsername(), userDTO.getDateOfBirth(), userDTO.getPassword(), photoBytes);
+            User user = new User(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getUsername(), userDTO.getDateOfBirth(), userDTO.getPassword());
+            if (photoBytes != null) {
+                user.setProfilePicture(photoBytes);
+            }
             this.userRep.save(user);
         } else {
             throw new UserConflictException("Usuário " + userDTO.getUsername() + " já existe");
@@ -47,7 +50,7 @@ public class UserService {
         return user;
     }
 
-	public List<User> listUsers() {
-        return new ArrayList<>(userRep.findAll());
+    public List<User> getAllUsers() {
+        return userRep.findAll();
     }
 }

@@ -25,6 +25,8 @@ o primeiro build é demorado, levando cerca de 3 a 4 minutos, depois que ele for
 ```
 docker run -p 8686:8686 bookhive-app
 ```
+json de cadastro
+{  "firstName": "string",   "lastName": "string",   "username": "string",   "dateOfBirth": "2024-12-09T15:16:51.081Z",   "password": "string" }
 
 
 
@@ -79,3 +81,6 @@ Depois suba a aplicação na IDE de sua preferência.
 A documentação sobre os endpoits pode ser encontrada no seguinte link : 
 
 [http://localhost:8080/swagger-ui.html#](http://localhost:8080/swagger-ui.html#)
+
+para por no campo de cadastrar user
+{   "firstName": "string",   "lastName": "string",   "username": "string",   "dateOfBirth": "2024-12-09T15:16:51.081Z",   "password": "string" }
