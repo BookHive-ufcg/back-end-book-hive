@@ -27,7 +27,7 @@ import com.bookhive.ufcg.bookhive.service.ReviewService;
 
 @RestController
 @RequestMapping("/reviews")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class ReviewController {
 
     @Autowired
