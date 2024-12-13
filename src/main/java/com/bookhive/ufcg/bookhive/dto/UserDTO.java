@@ -1,5 +1,7 @@
 package com.bookhive.ufcg.bookhive.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.sql.Date;
 
 public class UserDTO {
@@ -12,8 +14,10 @@ public class UserDTO {
 
     private Date dateOfBirth;
 
-    private String password; 
+    private String password;
 
+    public UserDTO() {
+    }
     public UserDTO(String firstName, String lastName, String username, Date dateOfBirth,String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -43,5 +47,6 @@ public class UserDTO {
     public void setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth;}
 
     public void setPassword(String password) { this.password = password;}
+
 
 } 

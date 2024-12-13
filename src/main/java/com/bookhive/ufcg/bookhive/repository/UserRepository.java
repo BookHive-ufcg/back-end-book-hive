@@ -8,5 +8,6 @@ import com.bookhive.ufcg.bookhive.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
+
 }
 

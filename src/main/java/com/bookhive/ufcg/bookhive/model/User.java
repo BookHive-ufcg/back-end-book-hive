@@ -22,8 +22,9 @@ public class User {
     @Column(name = "senha")
     private String password;
 
+    @Lob
     @Column(name = "foto_perfil")
-    private String profilePicture;
+    private byte[] profilePicture;
 
     public User() {
     }
@@ -36,6 +37,22 @@ public class User {
         this.password = password;
     }
 
+    public User(String firstName, String lastName, String username, Date dateOfBirth, String password, byte[] profilePicture) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.dateOfBirth = dateOfBirth;
+        this.password = password;
+        this.profilePicture = profilePicture;
+    }
+
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
+    }
     public String getFirstName() { return firstName; }
 
     public String getLastName() { return lastName; }
