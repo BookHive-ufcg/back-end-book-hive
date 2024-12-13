@@ -20,7 +20,7 @@ import com.bookhive.ufcg.bookhive.service.UserService;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins = "*")
+@CrossOrigin
 public class UserController {
 
     @Autowired
