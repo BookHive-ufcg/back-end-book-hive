@@ -7,21 +7,18 @@ spring:
       pool-name: plataforma-database-pool
       auto-commit: false
       connection-timeout: 30000
-    url: jdbc:postgresql://dpg-ctbhp30gph6c73bt9mq0-a.ohio-postgres.render.com:5432/bookhive_gvrz
-    username: bookhive_gvrz_user
-    password: yaoHvvKaFkaYc3XxWtCwxh8qjsnDvySA
+    url: jdbc:postgresql://dpg-cte37dtds78s739i357g-a.oregon-postgres.render.com:5432/bookhivedb_q7zr
+    username: bookhivedb_q7zr_user
+    password: sRb74QR524qoZ548Gq1Ofx5Z5qQGDzgg
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver
     initialization-mode: always
   jpa:
-    properties:
-      hibernate:
-        ddl-auto: create
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        jdbc:
-          lob:
-            non_contextual_creation: true
-      show-sql: true
+    hibernate:
+      ddl-auto: create
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
   sql:
     init:
       mode: always
+
